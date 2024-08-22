@@ -1,0 +1,52 @@
+use emp;
+create table customer(customer_id int primary key not null check(customer_id>0),
+customer_name varchar (20)not null,
+customer_password int check(length(customer_password)between 6 and 10));
+drop table customer;
+
+
+show tables;
+create table products (product_id int primary key not null,
+product_name varchar (20) not null unique,
+product_qty int check (product_qty>0),
+customer_id int,
+constraint fk_3 foreign key(customer_id) references customer(customer_id));
+insert into customer values (1,"abhi",1111111111); 
+
+insert into customer values(1,"abhi",12456789);
+insert into customer values(2,"pari",1234567890);
+insert into customer values(3,"ansh",123456);
+insert into customer values(4,"vishwakarma",12345);
+/*18:21:26	insert into customer values(4,"vishwakarma",12345)	Error Code: 3819. Check constraint 'customer_chk_2' is violated.	0.016 sec
+*/
+insert into customer values(4,"vishwakarma",1234567);
+
+insert into customer values(2,"aditya", 4867948);
+/*18:22:43	insert into customer values(2,"aditya", 4867948)	Error Code: 1062. Duplicate entry '2' for key 'customer.PRIMARY'	0.000 sec
+*/
+insert into customer values(5,"aditya", 4867948);
+
+
+
+insert into products values(1,"keyboard",1,1);
+insert into products values(1,"monitor",1,1);
+/*0	65	18:06:31	insert into products values(1,"monitor",1,1)	Error Code: 1062. Duplicate entry '1' for key 'products.PRIMARY'	0.000 sec*/
+insert into products values(7,"monitor",1,1);
+
+
+insert into products values(2,"mouse",2,2);
+insert into products values
+
+insert into products values(3,"cable",6,3);
+insert into products values(1,"cable",6,3);
+/*0	67	18:15:23	insert into products values(1,"cable",6,3)	Error Code: 1062. Duplicate entry '1' for key 'products.PRIMARY'	//*
+insert into products values(1,"monitor",1,*/
+
+insert into products values(9,"mouse",2,3);
+/*18:25:59	insert into products values(9,"mouse",2,3)	Error Code: 1062. Duplicate entry 'mouse' for key 'products.product_name'	0.000 sec
+*/
+insert into products values(9,"cat",1,1);
+
+delete from customer where customer_id = 1; 
+/*18:28:08	delete from customer where customer_id = 1	Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails (`emp`.`products`, CONSTRAINT `fk_3` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`))	0.016 sec
+*/
